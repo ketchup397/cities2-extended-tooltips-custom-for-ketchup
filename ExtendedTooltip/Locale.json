@@ -55,6 +55,10 @@
 
   "Options.OPTION[ExtendedTooltip.ExtendedTooltip.Mod.ModSettings.ShowNetToolSystem]": "Net Tool",
   "Options.OPTION_DESCRIPTION[ExtendedTooltip.ExtendedTooltip.Mod.ModSettings.ShowNetToolSystem]": "Enable tooltips for the Net Tool.",
+  "Options.OPTION[ExtendedTooltip.ExtendedTooltip.Mod.ModSettings.ShowNetToolLength]": "Road Length Measurement",
+  "Options.OPTION_DESCRIPTION[ExtendedTooltip.ExtendedTooltip.Mod.ModSettings.ShowNetToolLength]": "Shows the length of the road being drawn.",
+  "Options.OPTION[ExtendedTooltip.ExtendedTooltip.Mod.ModSettings.ShowNetToolGradient]": "Road Gradient Measurement",
+  "Options.OPTION_DESCRIPTION[ExtendedTooltip.ExtendedTooltip.Mod.ModSettings.ShowNetToolGradient]": "Shows the gradient of the road being drawn.",
   "Options.OPTION[ExtendedTooltip.ExtendedTooltip.Mod.ModSettings.ShowNetToolUnits]": "Show Unit Measurements",
   "Options.OPTION_DESCRIPTION[ExtendedTooltip.ExtendedTooltip.Mod.ModSettings.ShowNetToolUnits]": "Shows the length of a road segment in Units.",
   "Options.OPTION[ExtendedTooltip.ExtendedTooltip.Mod.ModSettings.ToggleShowNetToolUnits]": "Toggle Show Unit Measurements",

@@ -25,6 +25,7 @@ namespace ExtendedTooltip
 			var m_Groups = Traverse.Create(__instance).Field("m_Groups").GetValue<List<TooltipGroup>>();
 			var m_GuideLinesSystem = Traverse.Create(__instance).Field("m_GuideLinesSystem").GetValue<GuideLinesSystem>();
 			var useUnits = Mod.Settings.ShowNetToolSystem && Mod.Settings.ShowNetToolUnits;
+			var showLength = Mod.Settings.ShowNetToolSystem && Mod.Settings.ShowNetToolLength;
 
 			var tooltips = m_GuideLinesSystem.GetTooltips(out var dependencies);
 			dependencies.Complete();
@@ -65,6 +66,11 @@ namespace ExtendedTooltip
 						break;
 
 					case GuideLinesSystem.TooltipType.Length:
+						if (!showLength)
+						{
+							continue;
+						}
+
 						child.icon = "Media/Glyphs/Length.svg";
 						child.value = useUnits ? tooltipInfo.m_Value / 8f : tooltipInfo.m_Value;
 						child.unit = useUnits ? "floatTwoFractions" : "length";
@@ -103,27 +109,64 @@ namespace ExtendedTooltip
 	{
 		private static void Postfix(NetCourseTooltipSystem __instance)
 		{
-			if (!Mod.Settings.ShowNetToolSystem)
-			{
-				return;
-			}
-
 			var m_Length = Traverse.Create(__instance).Field("m_Length").GetValue<FloatTooltip>();
+			var m_Slope = Traverse.Create(__instance).Field("m_Slope").GetValue<FloatTooltip>();
+			var m_Group = Traverse.Create(__instance).Field("m_Group").GetValue<TooltipGroup>();
+			var tooltipUISystem = Traverse.Create(__instance).Field("m_TooltipUISystem").GetValue<TooltipUISystem>();
+			var showLength = Mod.Settings.ShowNetToolSystem && Mod.Settings.ShowNetToolLength;
+			var showGradient = Mod.Settings.ShowNetToolSystem && Mod.Settings.ShowNetToolGradient;
 
-			if (m_Length != null)
+			if (m_Length != null && m_Slope != null && m_Group != null)
 			{
-				if (Mod.Settings.ShowNetToolUnits)
+				if (showLength && Mod.Settings.ShowNetToolUnits)
 				{
 					m_Length.value /= 8f;
 					m_Length.unit = "floatTwoFractions";
 					m_Length.label = LocalizedString.Value("U");
 				}
-				else
+				else if (showLength)
 				{
 					m_Length.unit = "length";
 					m_Length.label = default;
 				}
 
+				var children = m_Group.children;
+				var expectedCount = (showLength ? 1 : 0) + (showGradient ? 1 : 0);
+				var childrenChanged = children.Count != expectedCount
+					|| (showLength && !ReferenceEquals(children[0], m_Length))
+					|| (showGradient && !ReferenceEquals(children[showLength ? 1 : 0], m_Slope));
+
+				if (childrenChanged)
+				{
+					children.Clear();
+					if (showLength)
+					{
+						children.Add(m_Length);
+					}
+
+					if (showGradient)
+					{
+						children.Add(m_Slope);
+					}
+
+					m_Group.SetChildrenChanged();
+				}
+
+				var mouseChildren = tooltipUISystem.mouseGroup.children;
+				if (!showLength)
+				{
+					mouseChildren.Remove(m_Length);
+				}
+
+				if (!showGradient)
+				{
+					mouseChildren.Remove(m_Slope);
+				}
+
+				if (expectedCount == 0)
+				{
+					tooltipUISystem.groups.Remove(m_Group);
+				}
 			}
 		}
 	}

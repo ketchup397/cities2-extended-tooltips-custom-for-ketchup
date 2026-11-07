@@ -17,6 +17,7 @@ The mod can show information such as:
 - Schools: current and maximum students
 - Public transport: waiting passengers and average waiting time
 - Roads: length, upkeep, and condition
+- Road construction: optional live length and gradient measurements, controlled independently in mod settings
 - Zones: zone info, households, residents, pets, rent, balance, and more
 - Vehicles: driver, passengers, garbage truck details, post van details
 - Additional context-sensitive tooltip data across multiple systems

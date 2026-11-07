@@ -92,6 +92,12 @@ namespace ExtendedTooltip
 		[SettingsUISection(TAB_TOOLTIPS, GRP_TOOLS)]
 		public bool ShowNetToolUnits { get; set; } = false;
 		[SettingsUISection(TAB_TOOLTIPS, GRP_TOOLS)]
+		[SettingsUIDisableByCondition(typeof(ModSettings), nameof(HideNetToolMeasurements))]
+		public bool ShowNetToolLength { get; set; } = true;
+		[SettingsUISection(TAB_TOOLTIPS, GRP_TOOLS)]
+		[SettingsUIDisableByCondition(typeof(ModSettings), nameof(HideNetToolMeasurements))]
+		public bool ShowNetToolGradient { get; set; } = true;
+		[SettingsUISection(TAB_TOOLTIPS, GRP_TOOLS)]
 		[SettingsUIKeyboardBinding(BindingKeyboard.U, "ToggleShowNetToolUnits", shift:true)]
 		public ProxyBinding ToggleShowNetToolUnits { get; set; }
 		[SettingsUISection(TAB_TOOLTIPS, GRP_TOOLS)]
@@ -102,6 +108,7 @@ namespace ExtendedTooltip
 		public bool ShowTerrainToolHeight { get; set; } = true;
 		[SettingsUISection(TAB_TOOLTIPS, GRP_TOOLS)]
 		public bool ShowWaterToolHeight { get; set; } = true;
+		private bool HideNetToolMeasurements() => !ShowNetToolSystem;
 
 		// CITIZEN
 		[SettingsUISection(TAB_TOOLTIPS, GRP_CITIZEN)]
